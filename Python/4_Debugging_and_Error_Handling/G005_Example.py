@@ -1,43 +1,17 @@
-import json
-import logging
+def process_customer(customer_data):
+    # Check if 'name' key exists, else set default
+    name = customer_data.get("name", "Unknown Customer")
 
-# Configure logging with appropriate levels and file rotation
-logging.basicConfig(
-    filename="order_processing.log",
-    level=logging.DEBUG,
-    format="%(asctime)s - %(levelname)s - %(message)s",
-)
+    # Check if 'age' exists and is a valid number, else set to default
+    age = customer_data.get("age", "N/A")
+    if isinstance(age, str) and not age.isdigit():
+        age = "Invalid Age"  # Provide a meaningful default value
 
-
-class OrderProcessingError(Exception):
-    """Custom exception for order processing errors"""
-
-    pass
+    print(f"Processing customer: {name}")
+    print(f"Customer age: {age}")
 
 
-def process_order(order_data):
-    try:
-        # Validate and parse order data
-        order = json.loads(order_data)
-        logging.info(f"Processing order: {order.get('order_id')}")
-
-        if order["quantity"] == 0:
-            raise OrderProcessingError("Quantity cannot be zero.")  # Custom exception
-
-        price_per_item = order["total_price"] / order["quantity"]
-
-        logging.info(f"Order {order.get('order_id')} processed successfully.")
-        return price_per_item
-
-    except json.JSONDecodeError as e:
-        logging.error(f"Invalid JSON data: {e}")
-    except ZeroDivisionError as e:
-        logging.error(f"Math error in order processing: {e}")
-    except OrderProcessingError as e:
-        logging.warning(f"Order Processing Warning: {e}")
-    except Exception as e:
-        logging.exception(f"Unexpected error occurred!:{e}")  # Logs full stack trace
-
-
-# Simulating an invalid order input
-process_order('{"order_id": 123, "total_price": 100, "quantity": 0}')
+# Testing with missing key and invalid age
+process_customer({"age": "twenty"})  # No errors, provides defaults
+process_customer({"name": "Alice", "age": "twenty"})  # No errors, validates "age"
+process_customer({"name": "Bob", "age": "25"})  # Works correctly
