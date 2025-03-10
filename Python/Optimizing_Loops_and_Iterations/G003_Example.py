@@ -1,34 +1,32 @@
+"""An e-commerce platform applies discount coupons to matching customer orders. The company has 1 million orders and 100,000 discount coupons."""
+
 import time
+import random
+
+# Simulating 1 million customer orders (order_id, customer_id, amount)
+orders = [
+    (f"ORD{num}", f"CUST{random.randint(1, 500_000)}", random.randint(20, 500))
+    for num in range(1, 1_000_001)
+]
+
+# Simulating 100,000 discount coupons (customer_id, discount_percent)
+discounts = {
+    f"CUST{random.randint(1, 500_000)}": random.randint(5, 30) for _ in range(100_000)
+}
 
 
-def process_numbers_optimized(numbers):
-    # Using list comprehension to square and filter in one go
-    squared_even_numbers = [
-        num * num for num in numbers if (num * num) % 2 == 0
-    ]
-
-    # Use sum() to directly calculate the sum of the numbers
-    return sum(squared_even_numbers)
-
-
-# Alternative version using map() and filter()
-def process_numbers_optimized_map_filter(numbers):
-    # Using map() to square the numbers, and filter() to keep only even squares
-    squared_numbers = map(lambda x: x * x, numbers)
-    even_squared_numbers = filter(lambda x: x % 2 == 0, squared_numbers)
-
-    # Use sum() to directly calculate the sum of the numbers
-    return sum(even_squared_numbers)
+# GOOD: Uses dictionary lookup for O(n) performance
+def apply_discounts(orders, discounts):
+    return [
+        (order[0], order[1], order[2], discounts[order[1]])
+        for order in orders
+        if order[1] in discounts
+    ]  # O(n) instead of O(n*m)
 
 
-# Timing the execution of the good code
 start_time = time.time()
-
-# Example usage
-numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-result_good = process_numbers_optimized(numbers)
-
+discounted_orders = apply_discounts(orders, discounts)
 end_time = time.time()
-execution_time_good = end_time - start_time
-print(f"Good Code Execution Time: {execution_time_good:.6f} seconds")
-print(f"Result: {result_good}")
+
+print(f"Execution Time (Good Code): {end_time - start_time:.2f} seconds")
+print(f"Discounted Orders Found: {len(discounted_orders)}")

@@ -1,31 +1,40 @@
+"""An e-commerce platform applies discount coupons to matching customer orders. The company has 1 million orders and 100,000 discount coupons."""
+
 import time
+import random
+
+# Simulating 1 million customer orders (order_id, customer_id, amount)
+orders = [
+    (f"ORD{num}", f"CUST{random.randint(1, 500_000)}", random.randint(20, 500))
+    for num in range(1, 1_000_001)
+]
+
+# Simulating 100,000 discount coupons (customer_id, discount_percent)
+discounts = {
+    f"CUST{random.randint(1, 500_000)}": random.randint(5, 30) for _ in range(100_000)
+}
 
 
-def process_numbers(numbers):
-    squared_numbers = []
-    for num in numbers:
-        squared_numbers.append(num * num)
+# BAD: Uses a slow approach with an inefficient filtering mechanism
+def apply_discounts(orders, discounts):
+    discounted_orders = []
 
-    even_squared_numbers = []
-    for num in squared_numbers:
-        if num % 2 == 0:
-            even_squared_numbers.append(num)
+    for order in orders:  # O(n) loop (1M iterations)
+        matched_discounts = [
+            discounts[cust_id] for cust_id in discounts if cust_id == order[1]
+        ]  # O(m) lookup (100K iterations)
 
-    total_sum = 0
-    for num in even_squared_numbers:
-        total_sum += num
+        if matched_discounts:  # If there is a matching discount
+            discounted_orders.append(
+                (order[0], order[1], order[2], matched_discounts[0])
+            )
 
-    return total_sum
+    return discounted_orders
 
 
-# Timing the execution of the bad code
 start_time = time.time()
-
-# Example usage
-numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-result_bad = process_numbers(numbers)
-
+discounted_orders = apply_discounts(orders, discounts)
 end_time = time.time()
-execution_time_bad = end_time - start_time
-print(f"Bad Code Execution Time: {execution_time_bad:.6f} seconds")
-print(f"Result: {result_bad}")
+
+print(f"Execution Time (Bad Code): {end_time - start_time:.2f} minutes")
+print(f"Discounted Orders Found: {len(discounted_orders)}")

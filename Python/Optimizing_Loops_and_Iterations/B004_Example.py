@@ -1,9 +1,14 @@
+"""An online retail platform needs to process customer orders, apply discounts, and generate reports in real-time. Poor coding choices can cause performance bottlenecks, affecting checkout speeds and backend processing."""
+
 import time
 import random
-import threading
 
 # Simulating 1 million orders (order_id, customer_id, amount)
-orders = [[f"ORD{num}", f"CUST{random.randint(1, 500_000)}", random.randint(20, 500)] for num in range(1, 1_000_001)]
+orders = [
+    [f"ORD{num}", f"CUST{random.randint(1, 500_000)}", random.randint(20, 500)]
+    for num in range(1, 1_000_001)
+]
+
 
 # Simulating 100,000 discount coupons stored in a Linked List (Inefficient)
 class Node:
@@ -11,6 +16,7 @@ class Node:
         self.customer_id = customer_id
         self.discount = discount
         self.next = None
+
 
 class LinkedListDiscounts:
     def __init__(self):
@@ -29,10 +35,12 @@ class LinkedListDiscounts:
             current = current.next
         return 0
 
+
 # Creating a Linked List for discounts (BAD: Slow for lookups)
 discounts = LinkedListDiscounts()
 for _ in range(100_000):
     discounts.add_discount(f"CUST{random.randint(1, 500_000)}", random.randint(5, 30))
+
 
 # BAD: Uses a slow single-threaded approach
 def process_orders():
@@ -41,6 +49,7 @@ def process_orders():
         discount = discounts.get_discount(order[1])  # O(n) lookup for each order
         discounted_orders.append((order[0], order[1], order[2], discount))
     return discounted_orders
+
 
 start_time = time.time()
 discounted_orders = process_orders()

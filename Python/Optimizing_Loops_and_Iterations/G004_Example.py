@@ -1,16 +1,28 @@
+"""An online retail platform needs to process customer orders, apply discounts, and generate reports in real-time. Poor coding choices can cause performance bottlenecks, affecting checkout speeds and backend processing."""
+
 import time
 import random
 from concurrent.futures import ThreadPoolExecutor
 
 # Simulating 1 million orders (order_id, customer_id, amount)
-orders = [(f"ORD{num}", f"CUST{random.randint(1, 500_000)}", random.randint(20, 500)) for num in range(1, 1_000_001)]
+orders = [
+    (f"ORD{num}", f"CUST{random.randint(1, 500_000)}", random.randint(20, 500))
+    for num in range(1, 1_000_001)
+]
 
 # Using a HashMap (Dictionary) for fast key-based lookups
-discounts = {f"CUST{random.randint(1, 500_000)}": random.randint(5, 30) for _ in range(100_000)}
+discounts = {
+    f"CUST{random.randint(1, 500_000)}": random.randint(5, 30) for _ in range(100_000)
+}
+
 
 # Optimized function using HashMap (O(1) lookups) and concurrency
 def process_chunk(start, end):
-    return [(order[0], order[1], order[2], discounts.get(order[1], 0)) for order in orders[start:end]]
+    return [
+        (order[0], order[1], order[2], discounts.get(order[1], 0))
+        for order in orders[start:end]
+    ]
+
 
 # Using ThreadPoolExecutor for parallel processing
 def process_orders_parallel(num_threads=4):
@@ -18,11 +30,15 @@ def process_orders_parallel(num_threads=4):
     results = []
 
     with ThreadPoolExecutor(max_workers=num_threads) as executor:
-        futures = [executor.submit(process_chunk, i * chunk_size, (i + 1) * chunk_size) for i in range(num_threads)]
+        futures = [
+            executor.submit(process_chunk, i * chunk_size, (i + 1) * chunk_size)
+            for i in range(num_threads)
+        ]
         for future in futures:
             results.extend(future.result())
 
     return results
+
 
 start_time = time.time()
 discounted_orders = process_orders_parallel()
