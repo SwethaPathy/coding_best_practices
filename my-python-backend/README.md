@@ -60,6 +60,7 @@ README.md                 # Main project documentation file
     │   └── api.md          # API documentation (describes available API endpoints and usage)
     │
     └── tests/              # Unit and integration tests for different parts of the application
+        ├── conftest.py     # pytest fixtures
         ├── api/            # Tests related to the API routes and controllers
         │   ├── test_product.py    # Tests for product-related API endpoints
         │   └── test_user.py       # Tests for user-related API endpoints
