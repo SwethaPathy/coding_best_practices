@@ -92,3 +92,27 @@ if __name__ == "__main__":
     logging.info(
         f"Loan Details: Principal = {loan_details[0]}, Interest Rate = {loan_details[1]}, Term = {loan_details[2]} years"
     )
+
+"""
+Why This Is Better:
+
+1. Naming Conventions:
+   - Function Names: `process_transaction()` is descriptive and clear, telling you exactly what it does. `calculate_loan_details()` is self-explanatory.
+   - Variable Names: `transaction_types` and `amount` are clear, explaining what they represent. `balance` describes what is being updated in `process_transaction()`.
+   - Class Name: `TransactionProcessor` follows PascalCase and is more descriptive than just a generic name.
+   - Constants: `TRANSACTION_LIMIT` uses UPPER_CASE for constants, which is the best practice.
+
+2. Single Responsibility Principle:
+   - The `process_transaction()` method only handles the transaction processing, while `is_transaction_successful()` checks if the balance exceeds the limit. Both functions have clear, single responsibilities.
+   - The `calculate_loan_details()` function is focused only on calculating loan details, not mixing it with other concerns.
+
+3. Code Formatting & Linting:
+   - Indentation is consistent, making the code easy to read.
+   - Proper spacing around operators and inside function definitions.
+   - Shorter lines of code, improving readability. No line is overly long (staying within the 80-character limit is recommended).
+   - Proper docstrings explain what each function does, improving clarity for other developers.
+
+4. Maintainability and Scalability:
+   - By following these practices, the code is now more modular, readable, and maintainable.
+   - It’s easier to scale as additional transaction types or other logic can be added in a structured manner.
+"""

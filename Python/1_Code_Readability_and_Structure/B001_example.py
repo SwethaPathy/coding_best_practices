@@ -33,3 +33,20 @@ print(f"Final Balance: {result}")
 
 loan_details = qd(transaction_types)
 print(f"Loan Details: {loan_details}")
+
+"""
+This code is bad and does not follow best practices, making it harder to maintain, read, and scale:
+
+1. Naming Conventions:
+   - `pt()` is a vague function name (should be more descriptive like `process_transaction()`).
+   - The variables `t` and `a` are unclear. `t` could be `transaction_types` and `a` could be `amount`.
+   - `qd()` is not meaningful (should be `calculate_loan_details()` or something that explains its purpose).
+   - Variables like `x`, `p`, `l` are not descriptive.
+
+2. Function Responsibility:
+   - The `pt()` function is doing too much: processing transactions and printing results. It violates the **Single Responsibility Principle**.
+
+3. Formatting & Linting:
+   - The code is hard to read due to unclear spacing, long lines, and lack of proper indentation in places.
+   - It also lacks consistency in naming conventions.
+"""
