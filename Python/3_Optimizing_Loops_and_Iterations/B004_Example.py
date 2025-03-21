@@ -1,4 +1,5 @@
-"""An online retail platform needs to process customer orders, apply discounts, and generate reports in real-time. Poor coding choices can cause performance bottlenecks, affecting checkout speeds and backend processing."""
+"""An online retail platform needs to process customer orders, apply discounts,
+and generate reports in real-time."""
 
 import time
 import random
@@ -29,11 +30,11 @@ class LinkedListDiscounts:
 
     def get_discount(self, customer_id):
         current = self.head
-        while current:  # Inefficient O(n) lookup
+        while current:  # ❌ Inefficient O(n) lookup for each discount retrieval
             if current.customer_id == customer_id:
                 return current.discount
             current = current.next
-        return 0
+        return 0  # ❌ No caching or indexing for faster lookups
 
 
 # Creating a Linked List for discounts (BAD: Slow for lookups)
@@ -46,14 +47,18 @@ for _ in range(100_000):
 def process_orders():
     discounted_orders = []
     for order in orders:
-        discount = discounts.get_discount(order[1])  # O(n) lookup for each order
+        discount = discounts.get_discount(
+            order[1]
+        )  # ❌ O(n) lookup for each order causes high latency
         discounted_orders.append((order[0], order[1], order[2], discount))
-    return discounted_orders
+    return discounted_orders  # ❌ No batch processing or parallel execution
 
 
 start_time = time.time()
 discounted_orders = process_orders()
 end_time = time.time()
 
-print(f"Execution Time (Bad Code): {end_time - start_time:.2f} minutes")
+print(
+    f"Execution Time (Bad Code): {end_time - start_time:.2f} minutes"
+)  # ❌ Inefficient execution
 print(f"Discounted Orders Processed: {len(discounted_orders)}")

@@ -1,4 +1,6 @@
-"""An e-commerce platform applies discount coupons to matching customer orders. The company has 1 million orders and 100,000 discount coupons."""
+"""An e-commerce platform applies discount coupons to matching customer orders.
+The company has 1 million orders and 100,000 discount coupons.
+"""
 
 import time
 import random
@@ -15,18 +17,21 @@ discounts = {
 }
 
 
-# GOOD: Uses dictionary lookup for O(n) performance
+# ✅ Efficient Algorithm: Uses dictionary lookup for O(n) performance
 def apply_discounts(orders, discounts):
     return [
         (order[0], order[1], order[2], discounts[order[1]])
         for order in orders
         if order[1] in discounts
-    ]  # O(n) instead of O(n*m)
+    ]  # ✅ O(n) instead of O(n*m), drastically improving performance
 
 
 start_time = time.time()
 discounted_orders = apply_discounts(orders, discounts)
 end_time = time.time()
 
+# ✅ Performance Optimization: Drastically reduces execution time compared to bad code.
 print(f"Execution Time (Good Code): {end_time - start_time:.2f} seconds")
+
+# ✅ Readable and Clear Output: Provides useful information about how many orders received discounts.
 print(f"Discounted Orders Found: {len(discounted_orders)}")
