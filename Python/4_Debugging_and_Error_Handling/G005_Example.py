@@ -1,17 +1,28 @@
 def process_customer(customer_data):
-    # Best practice: Use .get() to safely access dictionary keys and provide a default value if the key is missing.
-    # In this case, defaulting "name" to "Unknown Customer" if the key is missing.
+    """
+    ✅ Use .get() to safely access dictionary keys and provide a default value if the key is missing.
+    Using .get() helps avoid potential KeyErrors and provides fallback values for missing keys.
+    """
     name = customer_data.get("name", "Unknown Customer")  # Provides a default value for missing "name"
 
-    # It checks if "age" is a string and whether it contains only digits, but this doesn't handle cases where the "age" 
-    # is a valid number (e.g., "25" as a string is valid but not converted).
-    # Check if 'age' exists and is a valid number, else set to default
+    """
+    ✅ Defaulting to "N/A" if "age" is missing ensures that there's always a value.
+    This ensures the function continues to run smoothly, even with missing data.
+    """
     age = customer_data.get("age", "N/A")  # Default to "N/A" if "age" is missing
     
+    """
+    The check for non-digit age assumes all ages should be integers. 
+    It doesn't handle the case where age might be a valid number in string form, like "25".
+    Instead, it could convert the age to an integer or check for a valid number format.
+    """
     if isinstance(age, str) and not age.isdigit():  # This checks if age is a non-digit string but doesn't handle numbers properly.
         age = "Invalid Age"  # Provide a meaningful default value when age is invalid
 
-    # Best practice: Ensure that meaningful logs or prints are provided when data is processed.
+    """
+    ✅ Ensure that meaningful logs or prints are provided when data is processed.
+    This allows the developer to see what's going on with the data at each step.
+    """
     print(f"Processing customer: {name}")
     print(f"Customer age: {age}")
 
