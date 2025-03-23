@@ -39,5 +39,5 @@ discounted_orders = apply_discounts(orders, discounts)
 end_time = time.time()
 
 # ❌ Poor Performance: Takes too long due to inefficient loops.
-print(f"Execution Time (Bad Code): {end_time - start_time:.2f} minutes")
+print(f"Execution Time (Bad Code): {end_time - start_time:.2f} seconds")
 print(f"Discounted Orders Found: {len(discounted_orders)}")
