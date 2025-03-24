@@ -59,6 +59,6 @@ discounted_orders = process_orders()
 end_time = time.time()
 
 print(
-    f"Execution Time (Bad Code): {end_time - start_time:.2f} minutes"
+    f"Execution Time (Bad Code): {end_time - start_time:.2f} seconds"
 )  # ❌ Inefficient execution
 print(f"Discounted Orders Processed: {len(discounted_orders)}")
